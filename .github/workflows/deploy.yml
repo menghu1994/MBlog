@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main  # 监听主分支的推送
+      -
+permissions:
+  contents: write # 对仓库有写入权限
 
 jobs:
   deploy:

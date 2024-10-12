@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {NzContentComponent, NzFooterComponent, NzHeaderComponent, NzLayoutComponent} from 'ng-zorro-antd/layout';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'app-layout',
@@ -8,7 +9,8 @@ import {NzContentComponent, NzFooterComponent, NzHeaderComponent, NzLayoutCompon
     NzLayoutComponent,
     NzHeaderComponent,
     NzContentComponent,
-    NzFooterComponent
+    NzFooterComponent,
+    NzMenuModule,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
