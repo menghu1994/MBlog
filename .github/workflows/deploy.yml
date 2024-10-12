@@ -1,0 +1,25 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 监听主分支的推送
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install # 安装项目依赖（根据项目需要可改为 yarn 或其他命令）
+
+      - name: Build project
+        run: npm run build # 执行打包命令
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub 提供的 Token
+          publish_dir: ./dist  # 指定打包后文件的目录（如 React/Vue 项目默认为 ./dist）
