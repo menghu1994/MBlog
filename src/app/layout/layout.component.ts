@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import {NzContentComponent, NzFooterComponent, NzHeaderComponent, NzLayoutComponent} from 'ng-zorro-antd/layout';
+import {
+  NzContentComponent,
+  NzFooterComponent,
+  NzHeaderComponent,
+  NzLayoutComponent,
+  NzSiderComponent
+} from 'ng-zorro-antd/layout';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {RouterOutlet} from '@angular/router';
 
@@ -9,6 +15,7 @@ import {RouterOutlet} from '@angular/router';
   imports: [
     NzLayoutComponent,
     NzHeaderComponent,
+    NzSiderComponent,
     NzContentComponent,
     NzFooterComponent,
     NzMenuModule,

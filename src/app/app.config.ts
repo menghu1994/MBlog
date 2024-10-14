@@ -18,7 +18,7 @@ registerLocaleData(zh);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // provideZoneChangeDetection({ eventCoalescing: true }),
     provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
     provideNzI18n(zh_CN),
