@@ -2,16 +2,17 @@ import {Component, effect, ElementRef, input, viewChild, ViewEncapsulation} from
 import {marked, MarkedExtension} from 'marked';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark-dimmed.min.css';
-import {MdDirectoryComponent} from '../md-directory/md-directory.component';
+import {NzTreeComponent, NzTreeModule} from 'ng-zorro-antd/tree';
+import {NzIconModule} from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'm-md-reader',
   standalone: true,
-  imports: [MdDirectoryComponent],
+  imports: [NzTreeComponent, NzIconModule],
   template: `
     <div class="flex flex-row">
-      <div class="grow p-2" #mdContent></div>
-      <m-md-directory class="basis-32" [directory]="dirList"></m-md-directory>
+      <nz-tree [nzData]="treeData"></nz-tree>
+<!--      <div class="grow p-2" #mdContent></div>-->
     </div>
   `,
   styleUrl: './md-reader.component.scss'
@@ -20,6 +21,7 @@ export class MdReaderComponent {
   file = input<string>('');
   content = viewChild<ElementRef>('mdContent');
   dirList: any[] = [];
+  treeData: any[] = [];
   extensionOption: MarkedExtension = {
     breaks: true
   }
@@ -29,13 +31,8 @@ export class MdReaderComponent {
       fetch(this.file())
         .then(resp => resp.text())
         .then(text => {
-            // if(this.content()?.nativeElement) {
-            //   this.content()!.nativeElement.innerHTML = marked.use({
-            //     breaks: true
-            //   }).parse(text);
-            // }
           this.renderFile(text);
-          // this.generateTOC()
+          this.treeData = this.generateTocTree(this.dirList);
         })
     })
   }
@@ -72,15 +69,23 @@ export class MdReaderComponent {
     }
   }
 
-  generateTOC(): void {
-    // const tocHtml = this.tocList.map(item => {
-    //   // 根据标题级别生成缩进
-    //   const indent = '&nbsp;'.repeat((item.level - 1) * 4);
-    //   return `${indent}<a href="#${item.slug}">${item.text}</a><br>`;
-    // }).join('');
-    // if(this.directory()?.nativeElement) {
-    //   this.directory()!.nativeElement.innerHTML = tocHtml
-    // }
+  generateTocTree(headings: any[]): any[] {
+    const root: any[] = [];
+    const stack: any[] = [{ depth: 0, children: root }];
+
+    headings.forEach(heading => {
+      const { depth, text, anchor } = heading;
+      const newItem = { title: text,key: anchor,expanded: true,icon: 'smile', children: [] };
+
+      while (stack[stack.length - 1].depth >= depth) {
+        stack.pop();
+      }
+
+      stack[stack.length - 1].children.push(newItem);
+      stack.push({ depth, children: newItem.children });
+    });
+
+    return root;
   }
 
 }
